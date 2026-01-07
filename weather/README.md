@@ -1,0 +1,1 @@
+A simple stido MCP server (taken from https://modelcontextprotocol.io/docs/develop/build-server)

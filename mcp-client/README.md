@@ -1,3 +1,7 @@
+Note: this README is primarily for http_client.py (since this is just for demo purposes, I haven't yet
+cleaned up the directory structure/code to better merge or separate the two; client.py is simply
+taken from https://modelcontextprotocol.io/docs/develop/build-client)
+
 # MCP HTTP Client with OAuth DCR
 
 Python client for connecting to MCP servers over HTTP with OAuth 2.1 Dynamic Client Registration support.
@@ -21,6 +25,10 @@ Python client for connecting to MCP servers over HTTP with OAuth 2.1 Dynamic Cli
    ```bash
    ANTHROPIC_API_KEY=your_api_key_here
    ```
+3. Ensure you have an OAuth-Protected Server available. For demo purposes, consider
+using math-server + keycloak (as described at https://modelcontextprotocol.io/docs/tutorials/security/authorization#keycloak-setup -
+note that in addition to those instructions I also had to add "*" to the "test-client" valid redirect URIs). 
+Note that math-server expects an OAUTH_CLIENT_SECRET env variable.
 
 ## Usage
 
