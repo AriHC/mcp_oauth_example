@@ -8,7 +8,7 @@ Python client for connecting to MCP servers over HTTP with OAuth 2.1 Dynamic Cli
 
 ## Features
 
-- **Lazy Authentication**: Only authenticates when server requires it (on 401)
+- **Lazy Authentication**: Only authenticates when server requires it
 - **Token Caching**: Stores OAuth tokens locally for seamless reconnection
 - **Automatic Refresh**: Refreshes expired tokens automatically
 - **No User Interaction** (after first auth): Subsequent runs use cached tokens

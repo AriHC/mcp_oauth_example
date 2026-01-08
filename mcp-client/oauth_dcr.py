@@ -157,7 +157,7 @@ class OAuthDCRClient:
         if cached.get('expires_at'):
             self.token_expires_at = datetime.fromisoformat(cached['expires_at'])
 
-        print(f"✓ Loaded cached credentials for {self.resource_server_url}")
+        print(f"✓ Loaded cached credentials for {self.resource_server_url}, expire at {self.token_expires_at}")
 
         return True
 
@@ -205,6 +205,8 @@ class OAuthDCRClient:
         Returns:
             Authorization server metadata dict
         """
+        print(f"Discovering authorization server metadata from issuer: {issuer_url}")
+
         # Construct well-known URL
         issuer_url = issuer_url.rstrip('/')
         metadata_url = f"{issuer_url}/.well-known/openid-configuration"

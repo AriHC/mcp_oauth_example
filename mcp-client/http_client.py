@@ -79,6 +79,9 @@ class MCPHTTPClient:
         Check if the server requires OAuth authentication.
 
         Does this by checking for the OAuth Protected Resource metadata endpoint.
+        Note: ideally this would happen "on demand" when a 401 is received, but
+        due to limitations in the MCP SDK's HTTP transport's error handling,
+        it's simpler to check ahead of time.
 
         Returns:
             True if OAuth is required, False otherwise
@@ -125,7 +128,7 @@ class MCPHTTPClient:
 
     async def _handle_auth_required(self):
         """
-        Handle authentication when server returns 401.
+        Handle authentication when necessary.
 
         This will:
         1. Initialize OAuth client if not already done
