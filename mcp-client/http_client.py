@@ -162,6 +162,30 @@ class MCPHTTPClient:
         await self.oauth_client.perform_full_flow()
         self.authenticated = True
 
+    async def _ensure_valid_token(self):
+        """
+        Ensure we have a valid access token, refreshing if necessary.
+        Updates httpx client headers if token was refreshed.
+        """
+        if not self.authenticated or not self.oauth_client:
+            return
+
+        # Check if token is expired
+        if self.oauth_client._is_token_expired():
+            if self.oauth_client.refresh_token:
+                try:
+                    print("⚠ Token expired, refreshing...")
+                    await self.oauth_client.refresh_access_token()
+
+                    # Update httpx client headers with new token
+                    if self.http_client:
+                        self.http_client.headers.update(self.oauth_client.get_auth_headers())
+
+                    print("✓ Token refreshed")
+                except Exception as e:
+                    print(f"✗ Token refresh failed: {e}")
+                    raise
+
     async def process_query(self, query: str) -> str:
         """
         Process a query using Claude and available MCP tools.
@@ -177,7 +201,11 @@ class MCPHTTPClient:
 
         messages = [{"role": "user", "content": query}]
 
+        # Ensure token is valid before fetching tools
+        await self._ensure_valid_token()
+
         # Get available tools from MCP session
+        print("Fetching available tools from MCP server...")
         response = await self.session.list_tools()
         available_tools = [{
             "name": tool.name,
@@ -186,6 +214,7 @@ class MCPHTTPClient:
         } for tool in response.tools]
 
         # Initial Claude API call
+        print("Claude call")
         response = self.anthropic.messages.create(
             model="claude-sonnet-4-20250514",
             max_tokens=1000,
