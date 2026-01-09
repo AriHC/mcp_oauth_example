@@ -1,8 +1,10 @@
 """Configuration settings for the MCP auth server."""
 
 import os
+from dotenv import load_dotenv
 from typing import Optional
 
+load_dotenv()
 
 class Config:
     """Configuration class that loads from environment variables with sensible defaults."""

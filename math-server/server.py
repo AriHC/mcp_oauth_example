@@ -2,6 +2,8 @@ import datetime
 import logging
 from typing import Any
 
+from dotenv import load_dotenv
+
 from pydantic import AnyHttpUrl
 
 from mcp.server.auth.settings import AuthSettings
